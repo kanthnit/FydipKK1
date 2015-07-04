@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">FydipKK1</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="buttLoginR">Login</string>
+    <string name="buttRegisterR">Register</string>
+    <string name="title_activity_tournament">Tournament</string>
+    <string name="title_activity_match">Match</string>
+</resources>
