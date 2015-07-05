@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class MyDBHandler extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
     private static final String DATABASE_NAME = "fydip.db";
 
     public static final String TABLE_USER = "users";
@@ -32,20 +32,20 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String query1 = "CREATE TABLE " + TABLE_USER + "(" +
                 COLUMN_USER + " TEXT, " +
-                COLUMN_PASSWORD + " TEXT " +
+                COLUMN_PASSWORD + " TEXT, " +
                 "PRIMARY KEY (" + COLUMN_USER + ")" +
                 ");";
         db.execSQL(query1);
 
         String query2 = "CREATE TABLE " + TABLE_MATCH + "(" +
-                COLUMN_MATCH_ID + "INTEGER AUTOINCREMENT, " +
+                COLUMN_MATCH_ID + " INTEGER AUTOINCREMENT, " +
                 COLUMN_USER + " TEXT, " +
                 COLUMN_PLAYER1 + " TEXT, " +
                 COLUMN_PLAYER2 + " TEXT, " +
-                COLUMN_POINTS1 + " INTEGAR DEFAULT 0, " +
-                COLUMN_POINTS2 + " INTEGAR DEFAULT 0, " +
-                "PRIMARY KEY (" + COLUMN_MATCH_ID + "," +
-                "FOREIGN_KEY (" + COLUMN_USER + ") REFERENCES " + TABLE_USER + "(" + COLUMN_USER + ")" +
+                COLUMN_POINTS1 + " INTEGER DEFAULT 0, " +
+                COLUMN_POINTS2 + " INTEGER DEFAULT 0, " +
+                "PRIMARY KEY (" + COLUMN_MATCH_ID + ")," +
+                "FOREIGN KEY (" + COLUMN_USER + ") REFERENCES " + TABLE_USER + "(" + COLUMN_USER + ")" +
                 ");";
         db.execSQL(query2);
     }
@@ -53,6 +53,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MATCH);
         onCreate(db);
     }
 
@@ -67,8 +68,9 @@ public class MyDBHandler extends SQLiteOpenHelper {
     }
 
     public boolean verifyUser(User user) {
-        String query = "SELECT " + COLUMN_PASSWORD + "FROM " + TABLE_USER + " WHERE " + COLUMN_USER + "=\"" + user.get_username() + "\";" ;
-        return false;
+        //String query = "SELECT " + COLUMN_PASSWORD + "FROM " + TABLE_USER + " WHERE " + COLUMN_USER + "=\"" + user.get_username() + "\";" ;
+        //TODO
+        return true;
     }
 
     public void addMatch(Match match){
@@ -81,6 +83,14 @@ public class MyDBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         db.insert(TABLE_MATCH, null, values);
         db.close();
+    }
+
+    public Cursor getMatchesList(String username) {
+        String data = "";
+        SQLiteDatabase db = getWritableDatabase();
+        String[] queryCols=new String[]{"matchID", "player1", "player2"};
+        Cursor cursor = db.query(TABLE_MATCH, queryCols, COLUMN_USER + " = " + username, null, null, null, null);
+        return cursor;
     }
 
     public String databaseToString(){
@@ -97,6 +107,31 @@ public class MyDBHandler extends SQLiteOpenHelper {
         while (!c.isAfterLast()) {
             if (c.getString(c.getColumnIndex("username")) != null) {
                 dbString += c.getString(c.getColumnIndex("username"));
+                dbString += "\n";
+            }
+            c.moveToNext();
+        }
+        c.close();
+        db.close();
+        return dbString;
+    }
+
+    public String databaseMatchToString(){
+        String dbString = "";
+        SQLiteDatabase db = getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_MATCH + " WHERE 1";
+
+        //Cursor points to a location in your results
+        Cursor c = db.rawQuery(query, null);
+        //Move to the first row in your results
+        c.moveToFirst();
+
+        //Position after the last row means the end of the results
+        while (!c.isAfterLast()) {
+            if (c.getString(c.getColumnIndex("username")) != null) {
+                dbString += c.getString(c.getColumnIndex("username"));
+                dbString += c.getString(c.getColumnIndex("player1"));
+                dbString += c.getString(c.getColumnIndex("player2"));
                 dbString += "\n";
             }
             c.moveToNext();

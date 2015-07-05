@@ -1,13 +1,27 @@
 package com.example.kk.fydipkk1;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class MatchAct extends AppCompatActivity {
+
+    EditText player1;
+    EditText player2;
+    MyDBHandler dbHandler;
+    String username = "";
+    TextView matchList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,11 +32,65 @@ public class MatchAct extends AppCompatActivity {
         if(user == null){
             return;
         }
-        String username = user.getString("username");
+        username = user.getString("username");
 
+        player1 = (EditText) findViewById(R.id.editTextPlayer1);
+        player2 = (EditText) findViewById(R.id.editTextPlayer2);
+        matchList = (TextView) findViewById(R.id.textViewMatchList);
 
-        //TextView bacontxt = (TextView) findViewById(R.id.textView);
-        //bacontxt.setText(username);
+        dbHandler = new MyDBHandler(this, null, null, 1);
+
+       //SQLiteDatabase db = new MyDBHandler(this).getWritableDatabase();
+        SQLiteDatabase db = dbHandler.getWritableDatabase();
+        String[] queryCols=new String[]{"matchID", "player1", "player2"};
+        Cursor c = db.query("match", queryCols,"username = '" + username + "'", null, null, null, null);
+        // make an adapter from the cursor
+        String[] from = new String[] { "player1" , "player2"};
+        int[] to = new int[] {android.R.id.text1};
+        @SuppressWarnings("deprecation")
+        //SimpleCursorAdapter sca = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, c, from, to);
+        SimpleCursorAdapter sca = new SimpleCursorAdapter(this, R.layout.activity_match,c,from,to);
+        sca.setDropDownViewResource(R.layout.activity_match);
+
+        Spinner spin = (Spinner) findViewById(R.id.spinnerListmatches);
+        spin.setAdapter(sca);
+
+        spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getApplicationContext(), "Selected ID=" + id, Toast.LENGTH_LONG).show();
+            }
+
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        c.close();
+
+    }
+
+    public void addMatch(View view) {
+        Match match = new Match(player1.getText().toString(),player2.getText().toString(), username);
+        dbHandler.addMatch(match);
+        Toast.makeText(getApplicationContext(), "Match added to list" , Toast.LENGTH_LONG).show();
+        printSpinner();
+        //updateSpinner();
+    }
+
+    public void printSpinner() {
+        String list = dbHandler.databaseMatchToString();
+        matchList.setText(list);
+    }
+
+    public void updateSpinner()
+    {
+        Cursor c = dbHandler.getMatchesList(username);
+        // make an adapter from the cursor
+        String[] from = new String[] { MyDBHandler.COLUMN_PLAYER1,MyDBHandler.COLUMN_PLAYER2};
+        int[] to = new int[] {android.R.id.text1};
+        @SuppressWarnings("deprecation")
+        SimpleCursorAdapter sca = new SimpleCursorAdapter(this, R.layout.activity_match,c,from,to);
+        sca.setDropDownViewResource(R.layout.activity_match);
+        Spinner spin = (Spinner) findViewById(R.id.spinnerListmatches);
+        spin.setAdapter(sca);
     }
 
     @Override

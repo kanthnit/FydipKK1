@@ -37,11 +37,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onLogin(View view){
-        User user = new User(username.getText().toString(),password.getText().toString());
-        boolean isExists;
-        isExists = dbHandler.verifyUser(user);
+        //User user = new User(username.getText().toString(),password.getText().toString());
+        boolean isExists = true;
+        //Intent i = new Intent(this,kkAct.class);
+        //startActivity(i);
+        //isExists = dbHandler.verifyUser(user);
         if(isExists) {
-            Intent i = new Intent(this, MatchAct.class);
+            Intent i = new Intent(this,MatchAct.class);
             String msg = username.getText().toString();
             i.putExtra("username", msg);
             startActivity(i);
