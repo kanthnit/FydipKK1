@@ -68,9 +68,19 @@ public class MyDBHandler extends SQLiteOpenHelper {
     }
 
     public boolean verifyUser(User user) {
-        //String query = "SELECT " + COLUMN_PASSWORD + "FROM " + TABLE_USER + " WHERE " + COLUMN_USER + "=\"" + user.get_username() + "\";" ;
-        //TODO
-        return true;
+        SQLiteDatabase db = getWritableDatabase();
+        //String query = "SELECT " + COLUMN_PASSWORD + "FROM " + TABLE_USER + " WHERE " + COLUMN_USER + "=\'" + user.get_username() + "\';" ;
+        String[] queryCols = new String[]{MyDBHandler.COLUMN_PASSWORD};
+        Cursor cursor = db.query(TABLE_USER, queryCols, MyDBHandler.COLUMN_USER + "= '" + user.get_username() + "'", null, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            String strPassword = cursor.getString(cursor.getColumnIndex(MyDBHandler.COLUMN_PASSWORD));
+            if(strPassword.equals(user.get_password()))
+                return true;
+            else
+                return false;
+        }
+        else
+            return false;
     }
 
     public long addMatch(Match match){

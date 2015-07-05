@@ -37,11 +37,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onLogin(View view){
-        //User user = new User(username.getText().toString(),password.getText().toString());
+        User user = new User(username.getText().toString(),password.getText().toString());
         boolean isExists = true;
         //Intent i = new Intent(this,kkAct.class);
         //startActivity(i);
-        //isExists = dbHandler.verifyUser(user);
+        isExists = dbHandler.verifyUser(user);
         if(isExists) {
             Intent i = new Intent(this,MatchAct.class);
             String msg = username.getText().toString();
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
         }
         else {
-            Toast.makeText(getApplicationContext(), "User Doesn't Exist. Please try again." , Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Invalid Password/Username. Please try again." , Toast.LENGTH_LONG).show();
         }
     }
 
