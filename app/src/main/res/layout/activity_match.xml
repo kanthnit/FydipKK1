@@ -4,7 +4,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.example.kk.fydipkk1.MatchAct">
+    tools:context="com.example.kk.fydipkk1.MatchAct"
+    android:background="#ff8c19ff">
 
     <Spinner
         android:layout_width="wrap_content"
@@ -21,47 +22,47 @@
         android:id="@+id/editTextPlayer1"
         android:width="200dp"
         android:hint="Player1"
-        android:layout_above="@+id/editTextPlayer2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/editTextPlayer2"
         android:width="200dp"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:hint="PLayer2" />
+        android:hint="PLayer2"
+        android:layout_below="@+id/editTextPlayer1"
+        android:layout_alignLeft="@+id/editTextPlayer1"
+        android:layout_alignStart="@+id/editTextPlayer1"
+        android:layout_marginTop="20dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Create New Match"
+        android:text="Create Match"
         android:id="@+id/textView"
-        android:layout_above="@+id/editTextPlayer1"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_below="@+id/spinnerMatchAct"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="101dp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="CreateMatch"
+        android:text="LETS&apos;S START"
         android:id="@+id/buttCreatematch"
+        android:onClick="addMatch"
         android:layout_below="@+id/editTextPlayer2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:onClick="addMatch" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
         android:id="@+id/textViewMatchList"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="52dp" />
+        android:layout_marginBottom="52dp"
+        android:background="#ffebffe8" />
 </RelativeLayout>

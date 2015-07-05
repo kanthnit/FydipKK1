@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class MyDBHandler extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 5;
     private static final String DATABASE_NAME = "fydip.db";
 
     public static final String TABLE_USER = "users";
@@ -17,7 +17,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public static final String COLUMN_PASSWORD = "password";
 
     public static final String TABLE_MATCH = "match";
-    public static final String COLUMN_MATCH_ID = "matchID";
+    public static final String COLUMN_MATCH_ID = "id";
     public static final String COLUMN_PLAYER1 = "player1";
     public static final String COLUMN_PLAYER2 = "player2";
     public static final String COLUMN_POINTS1 = "points1";
@@ -38,13 +38,13 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.execSQL(query1);
 
         String query2 = "CREATE TABLE " + TABLE_MATCH + "(" +
-                COLUMN_MATCH_ID + " INTEGER AUTOINCREMENT, " +
+                COLUMN_MATCH_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_USER + " TEXT, " +
                 COLUMN_PLAYER1 + " TEXT, " +
                 COLUMN_PLAYER2 + " TEXT, " +
                 COLUMN_POINTS1 + " INTEGER DEFAULT 0, " +
                 COLUMN_POINTS2 + " INTEGER DEFAULT 0, " +
-                "PRIMARY KEY (" + COLUMN_MATCH_ID + ")," +
+                //"PRIMARY KEY (" + COLUMN_MATCH_ID + ")," +
                 "FOREIGN KEY (" + COLUMN_USER + ") REFERENCES " + TABLE_USER + "(" + COLUMN_USER + ")" +
                 ");";
         db.execSQL(query2);
@@ -73,7 +73,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         return true;
     }
 
-    public void addMatch(Match match){
+    public long addMatch(Match match){
         ContentValues values = new ContentValues();
         values.put(COLUMN_USER, match.get_username());
         values.put(COLUMN_PLAYER1, match.get_player1());
@@ -81,8 +81,9 @@ public class MyDBHandler extends SQLiteOpenHelper {
         values.put(COLUMN_POINTS1, match.get_points1());
         values.put(COLUMN_POINTS2, match.get_points2());
         SQLiteDatabase db = getWritableDatabase();
-        db.insert(TABLE_MATCH, null, values);
+        long id = db.insert(TABLE_MATCH, null, values);
         db.close();
+        return id;
     }
 
     public Cursor getMatchesList(String username) {
@@ -137,7 +138,6 @@ public class MyDBHandler extends SQLiteOpenHelper {
             c.moveToNext();
         }
         c.close();
-        db.close();
         return dbString;
     }
 }

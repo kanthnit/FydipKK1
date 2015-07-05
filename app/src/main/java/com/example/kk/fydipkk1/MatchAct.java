@@ -1,5 +1,6 @@
 package com.example.kk.fydipkk1;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -42,42 +43,55 @@ public class MatchAct extends AppCompatActivity {
 
        //SQLiteDatabase db = new MyDBHandler(this).getWritableDatabase();
         SQLiteDatabase db = dbHandler.getWritableDatabase();
-        String[] queryCols=new String[]{"matchID", "player1", "player2"};
-        Cursor c = db.query("match", queryCols,"username = '" + username + "'", null, null, null, null);
+
+        printSpinner();
+        String[] queryCols=new String[]{MyDBHandler.COLUMN_MATCH_ID, MyDBHandler.COLUMN_PLAYER1, MyDBHandler.COLUMN_PLAYER2};
+        Cursor c = db.query(MyDBHandler.TABLE_MATCH, queryCols, MyDBHandler.COLUMN_USER + " = '" + username + "'", null, null, null, null);
         // make an adapter from the cursor
-        String[] from = new String[] { "player1" , "player2"};
+        String[] from = new String[] { MyDBHandler.COLUMN_PLAYER1 , MyDBHandler.COLUMN_PLAYER2};
         int[] to = new int[] {android.R.id.text1};
-        @SuppressWarnings("deprecation")
+//        @SuppressWarnings("deprecation")
         //SimpleCursorAdapter sca = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, c, from, to);
-        SimpleCursorAdapter sca = new SimpleCursorAdapter(this, R.layout.activity_match,c,from,to);
-        sca.setDropDownViewResource(R.layout.activity_match);
-
-        Spinner spin = (Spinner) findViewById(R.id.spinnerListmatches);
-        spin.setAdapter(sca);
-
-        spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), "Selected ID=" + id, Toast.LENGTH_LONG).show();
-            }
-
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
+//        SimpleCursorAdapter sca = new SimpleCursorAdapter(this, R.layout.activity_match,c,from,to);
+//        sca.setDropDownViewResource(R.layout.activity_match);
+//
+//        Spinner spin = (Spinner) findViewById(R.id.spinnerListmatches);
+//        spin.setAdapter(sca);
+//
+//        spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                Toast.makeText(getApplicationContext(), "Selected ID=" + id, Toast.LENGTH_LONG).show();
+//            }
+//
+//            public void onNothingSelected(AdapterView<?> parent) {
+//            }
+//        });
+        db.close();
         c.close();
 
     }
 
     public void addMatch(View view) {
+        SQLiteDatabase db = dbHandler.getWritableDatabase();
         Match match = new Match(player1.getText().toString(),player2.getText().toString(), username);
-        dbHandler.addMatch(match);
+        long id  = dbHandler.addMatch(match);
         Toast.makeText(getApplicationContext(), "Match added to list" , Toast.LENGTH_LONG).show();
         printSpinner();
+        db.close();
+        if(id != -1)
+        {
+            Intent i = new Intent(this, MatchScorecardAct.class);
+            i.putExtra("id", id);
+            startActivity(i);
+        }
+        else
+            return;
         //updateSpinner();
     }
 
     public void printSpinner() {
         String list = dbHandler.databaseMatchToString();
-        matchList.setText(list);
+        //matchList.setText(list);
     }
 
     public void updateSpinner()
