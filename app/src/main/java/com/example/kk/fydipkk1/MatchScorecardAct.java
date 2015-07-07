@@ -18,6 +18,8 @@ public class MatchScorecardAct extends AppCompatActivity {
     TextView player2;
     TextView score1;
     TextView score2;
+    TextView winner1;
+    TextView winner2;
     MyDBHandler dbHandler;
     long id = -1;
 
@@ -30,12 +32,14 @@ public class MatchScorecardAct extends AppCompatActivity {
         if(matchID == null){
             return;
         }
-        id = matchID.getLong("id");
+        id = matchID.getInt("id");
 
         player1 = (TextView) findViewById(R.id.textViewPlayer1);
         player2 = (TextView) findViewById(R.id.textViewPlayer2);
         score1 = (TextView) findViewById(R.id.textViewScore1);
         score2 = (TextView) findViewById(R.id.textViewScore2);
+        winner1 = (TextView) findViewById(R.id.textViewWinner1);
+        winner2 = (TextView) findViewById(R.id.textViewWinner2);
 
         dbHandler = new MyDBHandler(this, null, null, 1);
 
@@ -64,20 +68,25 @@ public class MatchScorecardAct extends AppCompatActivity {
         int strScore1 = c.getInt(c.getColumnIndex(MyDBHandler.COLUMN_POINTS1));
         int strScore2 = c.getInt(c.getColumnIndex(MyDBHandler.COLUMN_POINTS2));
         String query = "";
+        //if(strScore1 != 21 && strScore2 != 21)
         switch (view.getId()) {
             case (R.id.buttPlus1):
-                strScore1++;
-                query = "UPDATE " + MyDBHandler.TABLE_MATCH +
-                        " SET " + MyDBHandler.COLUMN_POINTS1 + "=" + strScore1 +
-                        " WHERE " + MyDBHandler.COLUMN_MATCH_ID + "=" + id;
-                db.execSQL(query);
+                if(strScore1 < 21 && strScore2 < 21) {
+                    strScore1++;
+                    query = "UPDATE " + MyDBHandler.TABLE_MATCH +
+                            " SET " + MyDBHandler.COLUMN_POINTS1 + "=" + strScore1 +
+                            " WHERE " + MyDBHandler.COLUMN_MATCH_ID + "=" + id;
+                    db.execSQL(query);
+                }
                 break;
             case (R.id.buttPlus2):
-                strScore2++;
-                query = "UPDATE " + MyDBHandler.TABLE_MATCH +
-                        " SET " + MyDBHandler.COLUMN_POINTS2 + "=" + strScore1 +
-                        " WHERE " + MyDBHandler.COLUMN_MATCH_ID + "=" + id;
-                db.execSQL(query);
+                if(strScore1 < 21 && strScore2 < 21) {
+                    strScore2++;
+                    query = "UPDATE " + MyDBHandler.TABLE_MATCH +
+                            " SET " + MyDBHandler.COLUMN_POINTS2 + "=" + strScore2 +
+                            " WHERE " + MyDBHandler.COLUMN_MATCH_ID + "=" + id;
+                    db.execSQL(query);
+                }
                 break;
             case (R.id.buttMinus1):
                 if(strScore1 > 0) {
@@ -92,7 +101,7 @@ public class MatchScorecardAct extends AppCompatActivity {
                 if(strScore2 > 0) {
                     strScore2--;
                     query = "UPDATE " + MyDBHandler.TABLE_MATCH +
-                            " SET " + MyDBHandler.COLUMN_POINTS2 + "=" + strScore1 +
+                            " SET " + MyDBHandler.COLUMN_POINTS2 + "=" + strScore2 +
                             " WHERE " + MyDBHandler.COLUMN_MATCH_ID + "=" + id;
                     db.execSQL(query);
                 }
@@ -106,6 +115,14 @@ public class MatchScorecardAct extends AppCompatActivity {
 
         score1.setText(String.valueOf(strScore1));
         score2.setText(String.valueOf(strScore2));
+        if(strScore1 == 21)
+            winner1.setText("WINNER");
+        else
+            winner1.setText("");
+        if(strScore2 == 21)
+            winner2.setText("WINNER");
+        else
+            winner2.setText("");
 
         c.close();
         db.close();

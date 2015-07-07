@@ -11,6 +11,7 @@ public class Match {
     private String _player2;
     private int _points1;
     private int _points2;
+    private String mode;
 
     public Match(String _player1, String _player2, String _username) {
         this._player1 = _player1;
@@ -64,5 +65,13 @@ public class Match {
 
     public void set_points2(int _points2) {
         this._points2 = _points2;
+    }
+
+    public String getMode() {
+        return mode;
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode;
     }
 }

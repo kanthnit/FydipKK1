@@ -7,5 +7,5 @@
     <string name="buttRegisterR">Register</string>
     <string name="title_activity_tournament">Tournament</string>
     <string name="title_activity_match">MatchAct</string>
-    <string name="title_activity_match_scorecard">match_scorecard</string>
+    <string name="title_activity_match_scorecard">MatchScorecard</string>
 </resources>

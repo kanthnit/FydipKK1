@@ -30,6 +30,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addUser(View view) {
+        if(username.getText().toString().isEmpty() || password.getText().toString().isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Please enter Username and Password", Toast.LENGTH_LONG).show();
+            return;
+        }
         User user = new User(username.getText().toString(),password.getText().toString());
         dbHandler.addUser(user);
         Toast.makeText(getApplicationContext(), "User Registered" , Toast.LENGTH_LONG).show();
@@ -61,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void printDatabase() {
         String dbString = dbHandler.databaseToString();
-        kkText.setText(dbString);
+        //kkText.setText(dbString);
     }
 
 }

@@ -7,23 +7,15 @@
     tools:context="com.example.kk.fydipkk1.MatchAct"
     android:background="#ff8c19ff">
 
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinnerMatchAct"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:spinnerMode="dropdown" />
-
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/editTextPlayer1"
         android:width="200dp"
         android:hint="Player1"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_above="@+id/editTextPlayer2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="18dp" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -31,10 +23,10 @@
         android:id="@+id/editTextPlayer2"
         android:width="200dp"
         android:hint="PLayer2"
-        android:layout_below="@+id/editTextPlayer1"
+        android:layout_above="@+id/buttCreatematch"
         android:layout_alignLeft="@+id/editTextPlayer1"
         android:layout_alignStart="@+id/editTextPlayer1"
-        android:layout_marginTop="20dp" />
+        android:layout_marginBottom="18dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -42,19 +34,18 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Create Match"
         android:id="@+id/textView"
-        android:layout_below="@+id/spinnerMatchAct"
+        android:layout_above="@+id/editTextPlayer1"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="101dp" />
+        android:layout_marginBottom="15dp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="LETS&apos;S START"
+        android:text="CREATE"
         android:id="@+id/buttCreatematch"
         android:onClick="addMatch"
-        android:layout_below="@+id/editTextPlayer2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp" />
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -65,4 +56,15 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="52dp"
         android:background="#ffebffe8" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/matchlistView"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/textView"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="15dp" />
+
 </RelativeLayout>
