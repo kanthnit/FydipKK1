@@ -11,17 +11,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/editTextPlayer1"
-        android:width="200dp"
+        android:width="160dp"
         android:hint="Player1"
         android:layout_above="@+id/editTextPlayer2"
-        android:layout_centerHorizontal="true"
         android:layout_marginBottom="18dp" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/editTextPlayer2"
-        android:width="200dp"
+        android:width="160dp"
         android:hint="PLayer2"
         android:layout_above="@+id/buttCreatematch"
         android:layout_alignLeft="@+id/editTextPlayer1"
@@ -65,6 +64,57 @@
         android:layout_above="@+id/textView"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginBottom="15dp" />
+        android:layout_marginBottom="15dp"
+        android:background="#ffa332ff" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignTop="@+id/editTextPlayer1"
+        android:layout_toRightOf="@+id/editTextPlayer1"
+        android:layout_toEndOf="@+id/buttCreatematch"
+        android:orientation="horizontal"
+        android:layout_alignBottom="@+id/editTextPlayer1"
+        android:id="@+id/radioGroupNumber">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Singles"
+            android:id="@+id/radioSingles"
+            android:checked="true" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Doubles"
+            android:id="@+id/radioDoubles"
+            android:checked="false" />
+    </RadioGroup>
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_below="@+id/editTextPlayer1"
+        android:layout_toRightOf="@+id/editTextPlayer2"
+        android:layout_toEndOf="@+id/editTextPlayer2"
+        android:layout_alignBottom="@+id/editTextPlayer2"
+        android:id="@+id/radioGroupMode">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="League"
+            android:id="@+id/radioLeague"
+            android:checked="true" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Eliminator"
+            android:id="@+id/radioEliminator"
+            android:checked="false" />
+    </RadioGroup>
 
 </RelativeLayout>

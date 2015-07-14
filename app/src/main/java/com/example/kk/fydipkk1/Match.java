@@ -9,6 +9,8 @@ public class Match {
     private String _username;
     private String _player1;
     private String _player2;
+    private String _player11;
+    private String _player22;
     private int _points1;
     private int _points2;
     private String mode;
@@ -73,5 +75,21 @@ public class Match {
 
     public void setMode(String mode) {
         this.mode = mode;
+    }
+
+    public String get_player11() {
+        return _player11;
+    }
+
+    public void set_player11(String _player11) {
+        this._player11 = _player11;
+    }
+
+    public String get_player22() {
+        return _player22;
+    }
+
+    public void set_player22(String _player22) {
+        this._player22 = _player22;
     }
 }

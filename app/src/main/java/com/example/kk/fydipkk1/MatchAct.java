@@ -14,6 +14,8 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +33,9 @@ public class MatchAct extends AppCompatActivity {
     TextView matchList;
     MatchlistAdapter matchlistAdapater;
     ListView matchlistListView;
+    RadioGroup radioGroupNumber;
+    RadioGroup radioGroupMode;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +52,9 @@ public class MatchAct extends AppCompatActivity {
         player2 = (EditText) findViewById(R.id.editTextPlayer2);
         matchList = (TextView) findViewById(R.id.textViewMatchList);
 
+        radioGroupNumber = (RadioGroup) findViewById(R.id.radioGroupNumber);
+        radioGroupMode = (RadioGroup) findViewById(R.id.radioGroupMode);
+
         dbHandler = new MyDBHandler(this, null, null, 1);
 
         //SQLiteDatabase db = new MyDBHandler(this).getWritableDatabase();
@@ -55,6 +63,41 @@ public class MatchAct extends AppCompatActivity {
         matchlistAdapater = new MatchlistAdapter(this, getMatchList());
         matchlistListView = (ListView) findViewById(R.id.matchlistView);
 
+        //radioNumberOnclickListen();
+        //radioModeOnclickListen();
+        radioGroupNumber.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                // checkedId is the RadioButton selected
+                switch (checkedId) {
+                    case R.id.radioSingles:
+                        Toast.makeText(getApplicationContext(), "Singles", Toast.LENGTH_SHORT).show();
+                        player1.setHint("player1");
+                        player2.setHint("player2");
+                        break;
+                    case R.id.radioDoubles:
+                        Toast.makeText(getApplicationContext(), "Doubles", Toast.LENGTH_SHORT).show();
+                        player1.setHint("player1/player2");
+                        player2.setHint("player1/player2");
+                        break;
+                }
+            }
+        });
+
+        radioGroupMode.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                // checkedId is the RadioButton selected
+                switch (checkedId) {
+                    case R.id.radioLeague:
+                        Toast.makeText(getApplicationContext(), "League", Toast.LENGTH_SHORT).show();
+                        //player1.setHint("player1/player2");
+                        break;
+                    case R.id.radioEliminator:
+                        Toast.makeText(getApplicationContext(), "Eliminator", Toast.LENGTH_SHORT).show();
+                        //player2.setHint("player1/player2");
+                        break;
+                }
+            }
+        });
 
         matchlistListView.setAdapter(matchlistAdapater);
         matchlistListView.setOnItemClickListener(
@@ -64,7 +107,7 @@ public class MatchAct extends AppCompatActivity {
                         //String name = String.valueOf(parent.getItemAtPosition(position));
                         Match match = (Match) matchlistAdapater.getItem(position);
 
-                        Toast.makeText(getApplicationContext(), String.valueOf(match.get_id()) , Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(), String.valueOf(match.get_id()) , Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(MatchAct.this, MatchScorecardAct.class);
                         i.putExtra("id", match.get_id());
                         startActivity(i);
@@ -74,6 +117,42 @@ public class MatchAct extends AppCompatActivity {
 
         db.close();
 
+    }
+
+    public void radioNumberOnclickListen() {
+        radioGroupNumber.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                // checkedId is the RadioButton selected
+                switch (checkedId) {
+                    case R.id.radioSingles:
+                        Toast.makeText(getApplicationContext(), "Singles", Toast.LENGTH_LONG).show();
+                        player1.setHint("player1/player2");
+                        break;
+                    case R.id.radioDoubles:
+                        Toast.makeText(getApplicationContext(), "Doubles", Toast.LENGTH_LONG).show();
+                        player2.setHint("player1/player2");
+                        break;
+                }
+            }
+        });
+    }
+
+    public void radioModeOnclickListen() {
+        radioGroupNumber.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                // checkedId is the RadioButton selected
+                switch (checkedId) {
+                    case R.id.radioLeague:
+                        Toast.makeText(getApplicationContext(), "League", Toast.LENGTH_LONG).show();
+                        //player1.setHint("player1/player2");
+                        break;
+                    case R.id.radioEliminator:
+                        Toast.makeText(getApplicationContext(), "Eliminator", Toast.LENGTH_LONG).show();
+                        //player2.setHint("player1/player2");
+                        break;
+                }
+            }
+        });
     }
 
     public List<Match> getMatchList() {
@@ -104,7 +183,7 @@ public class MatchAct extends AppCompatActivity {
         SQLiteDatabase db = dbHandler.getWritableDatabase();
         Match match = new Match(player1.getText().toString(),player2.getText().toString(), username);
         long id  = dbHandler.addMatch(match);
-        Toast.makeText(getApplicationContext(), "Match added to list" , Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Match added to list" , Toast.LENGTH_SHORT).show();
         printSpinner();
 
         if(id != -1)

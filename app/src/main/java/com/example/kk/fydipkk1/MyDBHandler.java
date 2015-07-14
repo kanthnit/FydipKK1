@@ -20,6 +20,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public static final String COLUMN_MATCH_ID = "id";
     public static final String COLUMN_PLAYER1 = "player1";
     public static final String COLUMN_PLAYER2 = "player2";
+    public static final String COLUMN_PLAYER11 = "player11";
+    public static final String COLUMN_PLAYER22 = "player22";
     public static final String COLUMN_POINTS1 = "points1";
     public static final String COLUMN_POINTS2 = "points2";
 
