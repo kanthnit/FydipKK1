@@ -69,11 +69,11 @@ public class Match {
         this._points2 = _points2;
     }
 
-    public String getMode() {
+    public String get_mode() {
         return mode;
     }
 
-    public void setMode(String mode) {
+    public void set_mode(String mode) {
         this.mode = mode;
     }
 

@@ -49,12 +49,24 @@ public class MatchlistAdapter extends BaseAdapter {
         View matchlistView = matchlistInflater.inflate(R.layout.matchlist_row, parent, false);
 
         String strplayer1 = matchList.get((int)getItemId(position)).get_player1();
+        String strplayer11 = matchList.get((int)getItemId(position)).get_player11();
         String strplayer2 = matchList.get((int)getItemId(position)).get_player2();
+        String strplayer22 = matchList.get((int)getItemId(position)).get_player22();
+        int strscore1 = matchList.get((int)getItemId(position)).get_points1();
+        int strscore2 = matchList.get((int)getItemId(position)).get_points2();
+        if(!strplayer11.isEmpty())
+            strplayer1 += "/" + strplayer11;
+        if(!strplayer22.isEmpty())
+            strplayer2 += "/" + strplayer22;
         TextView player1 = (TextView) matchlistView.findViewById(R.id.txtlistrowplayer1);
         TextView player2 = (TextView) matchlistView.findViewById(R.id.txtlistrowplayer2);
+        TextView score1 = (TextView) matchlistView.findViewById(R.id.txtlistrowscore1);
+        TextView score2 = (TextView) matchlistView.findViewById(R.id.txtlistrowscore2);
 
         player1.setText(strplayer1);
         player2.setText(strplayer2);
+        score1.setText(String.valueOf(strscore1));
+        score2.setText(String.valueOf(strscore2));
 
         return matchlistView;
     }

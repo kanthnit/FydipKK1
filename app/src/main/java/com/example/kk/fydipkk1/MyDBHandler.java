@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class MyDBHandler extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 8;
     private static final String DATABASE_NAME = "fydip.db";
 
     public static final String TABLE_USER = "users";
@@ -24,6 +24,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public static final String COLUMN_PLAYER22 = "player22";
     public static final String COLUMN_POINTS1 = "points1";
     public static final String COLUMN_POINTS2 = "points2";
+    public static final String COLUMN_MODE = "mode";
 
     //We need to pass database information along to superclass
     public MyDBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -43,9 +44,12 @@ public class MyDBHandler extends SQLiteOpenHelper {
                 COLUMN_MATCH_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_USER + " TEXT, " +
                 COLUMN_PLAYER1 + " TEXT, " +
+                COLUMN_PLAYER11 + " TEXT, " +
                 COLUMN_PLAYER2 + " TEXT, " +
+                COLUMN_PLAYER22 + " TEXT, " +
                 COLUMN_POINTS1 + " INTEGER DEFAULT 0, " +
                 COLUMN_POINTS2 + " INTEGER DEFAULT 0, " +
+                COLUMN_MODE + " TEXT, " +
                 //"PRIMARY KEY (" + COLUMN_MATCH_ID + ")," +
                 "FOREIGN KEY (" + COLUMN_USER + ") REFERENCES " + TABLE_USER + "(" + COLUMN_USER + ")" +
                 ");";
@@ -89,9 +93,12 @@ public class MyDBHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(COLUMN_USER, match.get_username());
         values.put(COLUMN_PLAYER1, match.get_player1());
+        values.put(COLUMN_PLAYER11, match.get_player11());
         values.put(COLUMN_PLAYER2, match.get_player2());
+        values.put(COLUMN_PLAYER22, match.get_player22());
         values.put(COLUMN_POINTS1, match.get_points1());
         values.put(COLUMN_POINTS2, match.get_points2());
+        values.put(COLUMN_MODE, match.get_mode());
         SQLiteDatabase db = getWritableDatabase();
         long id = db.insert(TABLE_MATCH, null, values);
         db.close();

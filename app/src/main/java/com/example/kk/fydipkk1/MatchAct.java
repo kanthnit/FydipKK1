@@ -36,7 +36,6 @@ public class MatchAct extends AppCompatActivity {
     RadioGroup radioGroupNumber;
     RadioGroup radioGroupMode;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -181,7 +180,38 @@ public class MatchAct extends AppCompatActivity {
 
     public void addMatch(View view) {
         SQLiteDatabase db = dbHandler.getWritableDatabase();
-        Match match = new Match(player1.getText().toString(),player2.getText().toString(), username);
+
+        String strplayer1,strplayer11="",strplayer2,strplayer22="";
+        strplayer1 = player1.getText().toString();
+        strplayer2 = player2.getText().toString();
+        int selectedId = radioGroupNumber.getCheckedRadioButtonId();
+        boolean doubles = false;
+        RadioButton radioButton = (RadioButton) findViewById(selectedId);
+        if(radioButton.getText().toString().equals(String.valueOf("doubles"))) {
+            if (strplayer1.contains("/") && strplayer2.contains("/")) {
+                // Split it.
+                doubles = true;
+                String[] parts = strplayer1.split("/");
+                strplayer1 = parts[0];
+                strplayer11 = parts[1];
+                parts = strplayer2.split("/");
+                strplayer2 = parts[0];
+                strplayer22 = parts[1];
+            } else {
+                Toast.makeText(getApplicationContext(), "Incorrect format", Toast.LENGTH_SHORT).show();
+            }
+        }
+        Toast.makeText(getApplicationContext(), radioButton.getText() , Toast.LENGTH_SHORT).show();
+
+        Match match = new Match(strplayer1,strplayer2, username);
+        match.set_mode(String.valueOf("singles"));
+
+        if(doubles) {
+            match.set_player11(strplayer11);
+            match.set_player22(strplayer22);
+            match.set_mode(String.valueOf("doubles"));
+        }
+
         long id  = dbHandler.addMatch(match);
         Toast.makeText(getApplicationContext(), "Match added to list" , Toast.LENGTH_SHORT).show();
         printSpinner();

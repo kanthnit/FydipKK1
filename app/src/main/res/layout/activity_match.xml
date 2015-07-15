@@ -75,7 +75,8 @@
         android:layout_toEndOf="@+id/buttCreatematch"
         android:orientation="horizontal"
         android:layout_alignBottom="@+id/editTextPlayer1"
-        android:id="@+id/radioGroupNumber">
+        android:id="@+id/radioGroupNumber"
+        android:layout_marginTop="5dp">
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -100,7 +101,8 @@
         android:layout_toRightOf="@+id/editTextPlayer2"
         android:layout_toEndOf="@+id/editTextPlayer2"
         android:layout_alignBottom="@+id/editTextPlayer2"
-        android:id="@+id/radioGroupMode">
+        android:id="@+id/radioGroupMode"
+        android:layout_marginTop="5dp">
 
         <RadioButton
             android:layout_width="wrap_content"
