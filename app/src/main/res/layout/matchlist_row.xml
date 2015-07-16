@@ -9,9 +9,12 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
         android:id="@+id/txtlistrowplayer1"
-        android:layout_marginLeft="20dp"
         android:layout_marginTop="5dp"
-        android:gravity="center_horizontal" />
+        android:gravity="center_horizontal"
+        android:layout_toLeftOf="@+id/textView5"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="10dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -32,8 +35,10 @@
         android:layout_alignBottom="@+id/textView5"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginRight="20dp"
-        android:gravity="center_horizontal" />
+        android:layout_marginRight="10dp"
+        android:gravity="center_horizontal"
+        android:layout_toRightOf="@+id/textView5"
+        android:layout_toEndOf="@+id/textView5" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -45,7 +50,9 @@
         android:layout_alignLeft="@+id/txtlistrowplayer1"
         android:layout_alignStart="@+id/txtlistrowplayer1"
         android:layout_marginTop="10dp"
-        android:gravity="center_horizontal" />
+        android:gravity="center|center_horizontal"
+        android:layout_toLeftOf="@+id/textView5"
+        android:layout_toStartOf="@+id/textView5" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -56,5 +63,7 @@
         android:layout_alignTop="@+id/txtlistrowscore1"
         android:layout_alignLeft="@+id/txtlistrowplayer2"
         android:layout_alignStart="@+id/txtlistrowplayer2"
-        android:gravity="center_horizontal" />
+        android:gravity="center_horizontal"
+        android:layout_alignRight="@+id/txtlistrowplayer2"
+        android:layout_alignEnd="@+id/txtlistrowplayer2" />
 </RelativeLayout>

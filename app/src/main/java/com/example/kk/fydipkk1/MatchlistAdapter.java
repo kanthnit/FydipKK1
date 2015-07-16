@@ -54,9 +54,10 @@ public class MatchlistAdapter extends BaseAdapter {
         String strplayer22 = matchList.get((int)getItemId(position)).get_player22();
         int strscore1 = matchList.get((int)getItemId(position)).get_points1();
         int strscore2 = matchList.get((int)getItemId(position)).get_points2();
-        if(!strplayer11.isEmpty())
-            strplayer1 += "/" + strplayer11;
-        if(!strplayer22.isEmpty())
+        //    if(!strplayer11.isEmpty())
+        if(strplayer11 != null && !strplayer11.isEmpty())
+                strplayer1 += "/" + strplayer11;
+        if(strplayer22 != null && !strplayer22.isEmpty())
             strplayer2 += "/" + strplayer22;
         TextView player1 = (TextView) matchlistView.findViewById(R.id.txtlistrowplayer1);
         TextView player2 = (TextView) matchlistView.findViewById(R.id.txtlistrowplayer2);

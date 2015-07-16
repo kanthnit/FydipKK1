@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -62,41 +63,8 @@ public class MatchAct extends AppCompatActivity {
         matchlistAdapater = new MatchlistAdapter(this, getMatchList());
         matchlistListView = (ListView) findViewById(R.id.matchlistView);
 
-        //radioNumberOnclickListen();
-        //radioModeOnclickListen();
-        radioGroupNumber.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                // checkedId is the RadioButton selected
-                switch (checkedId) {
-                    case R.id.radioSingles:
-                        Toast.makeText(getApplicationContext(), "Singles", Toast.LENGTH_SHORT).show();
-                        player1.setHint("player1");
-                        player2.setHint("player2");
-                        break;
-                    case R.id.radioDoubles:
-                        Toast.makeText(getApplicationContext(), "Doubles", Toast.LENGTH_SHORT).show();
-                        player1.setHint("player1/player2");
-                        player2.setHint("player1/player2");
-                        break;
-                }
-            }
-        });
-
-        radioGroupMode.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                // checkedId is the RadioButton selected
-                switch (checkedId) {
-                    case R.id.radioLeague:
-                        Toast.makeText(getApplicationContext(), "League", Toast.LENGTH_SHORT).show();
-                        //player1.setHint("player1/player2");
-                        break;
-                    case R.id.radioEliminator:
-                        Toast.makeText(getApplicationContext(), "Eliminator", Toast.LENGTH_SHORT).show();
-                        //player2.setHint("player1/player2");
-                        break;
-                }
-            }
-        });
+        radioGroupNumber.setOnCheckedChangeListener(onGroupNumberClick);
+        radioGroupMode.setOnCheckedChangeListener(onGroupModeClick);
 
         matchlistListView.setAdapter(matchlistAdapater);
         matchlistListView.setOnItemClickListener(
@@ -113,46 +81,49 @@ public class MatchAct extends AppCompatActivity {
                     }
                 }
         );
-
         db.close();
-
     }
 
-    public void radioNumberOnclickListen() {
-        radioGroupNumber.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                // checkedId is the RadioButton selected
-                switch (checkedId) {
-                    case R.id.radioSingles:
-                        Toast.makeText(getApplicationContext(), "Singles", Toast.LENGTH_LONG).show();
-                        player1.setHint("player1/player2");
-                        break;
-                    case R.id.radioDoubles:
-                        Toast.makeText(getApplicationContext(), "Doubles", Toast.LENGTH_LONG).show();
-                        player2.setHint("player1/player2");
-                        break;
-                }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        matchlistAdapater = new MatchlistAdapter(this, getMatchList());
+        matchlistListView.setAdapter(matchlistAdapater);
+    }
+
+    public RadioGroup.OnCheckedChangeListener onGroupNumberClick = new RadioGroup.OnCheckedChangeListener() {
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            // checkedId is the RadioButton selected
+            switch (checkedId) {
+                case R.id.radioSingles:
+                    Toast.makeText(getApplicationContext(), "Singles", Toast.LENGTH_SHORT).show();
+                    player1.setHint("Player1");
+                    player2.setHint("Player2");
+                    break;
+                case R.id.radioDoubles:
+                    Toast.makeText(getApplicationContext(), "Doubles", Toast.LENGTH_SHORT).show();
+                    player1.setHint("Player1/Player2");
+                    player2.setHint("Player1/Player2");
+                    break;
             }
-        });
-    }
+        }
+    };
 
-    public void radioModeOnclickListen() {
-        radioGroupNumber.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                // checkedId is the RadioButton selected
-                switch (checkedId) {
-                    case R.id.radioLeague:
-                        Toast.makeText(getApplicationContext(), "League", Toast.LENGTH_LONG).show();
-                        //player1.setHint("player1/player2");
-                        break;
-                    case R.id.radioEliminator:
-                        Toast.makeText(getApplicationContext(), "Eliminator", Toast.LENGTH_LONG).show();
-                        //player2.setHint("player1/player2");
-                        break;
-                }
+    public RadioGroup.OnCheckedChangeListener onGroupModeClick = new RadioGroup.OnCheckedChangeListener() {
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            // checkedId is the RadioButton selected
+            switch (checkedId) {
+                case R.id.radioLeague:
+                    Toast.makeText(getApplicationContext(), "League", Toast.LENGTH_SHORT).show();
+                    //player1.setHint("player1/player2");
+                    break;
+                case R.id.radioEliminator:
+                    Toast.makeText(getApplicationContext(), "Eliminator", Toast.LENGTH_SHORT).show();
+                    //player2.setHint("player1/player2");
+                    break;
             }
-        });
-    }
+        }
+    };
 
     public List<Match> getMatchList() {
         SQLiteDatabase db = dbHandler.getWritableDatabase();
@@ -167,8 +138,15 @@ public class MatchAct extends AppCompatActivity {
                         c.getString(c.getColumnIndex(MyDBHandler.COLUMN_USER)));
                 int strScore1 = c.getInt(c.getColumnIndex(MyDBHandler.COLUMN_POINTS1));
                 int strScore2 = c.getInt(c.getColumnIndex(MyDBHandler.COLUMN_POINTS2));
+                String strplayer11 = c.getString(c.getColumnIndex(MyDBHandler.COLUMN_PLAYER11));
+                String strplayer22 = c.getString(c.getColumnIndex(MyDBHandler.COLUMN_PLAYER22));
+                String mode = c.getString(c.getColumnIndex(MyDBHandler.COLUMN_MODE));
                 match.set_points1(strScore1);
                 match.set_points2(strScore2);
+                //if(!strplayer11.isEmpty() && ! strplayer22.isEmpty())
+                match.set_player22(strplayer22);
+                match.set_player11(strplayer11);
+                match.set_mode(mode);
                 match.set_id(c.getInt(c.getColumnIndex(MyDBHandler.COLUMN_MATCH_ID)));
                 matchList.add(match);
             }while (c.moveToNext());
@@ -233,19 +211,6 @@ public class MatchAct extends AppCompatActivity {
     public void printSpinner() {
         String list = dbHandler.databaseMatchToString();
         //matchList.setText(list);
-    }
-
-    public void updateSpinner()
-    {
-        Cursor c = dbHandler.getMatchesList(username);
-        // make an adapter from the cursor
-        String[] from = new String[] { MyDBHandler.COLUMN_PLAYER1,MyDBHandler.COLUMN_PLAYER2};
-        int[] to = new int[] {android.R.id.text1};
-        @SuppressWarnings("deprecation")
-        SimpleCursorAdapter sca = new SimpleCursorAdapter(this, R.layout.activity_match,c,from,to);
-        sca.setDropDownViewResource(R.layout.activity_match);
-        Spinner spin = (Spinner) findViewById(R.id.spinnerListmatches);
-        spin.setAdapter(sca);
     }
 
     @Override

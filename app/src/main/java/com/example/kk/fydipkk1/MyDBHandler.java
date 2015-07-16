@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class MyDBHandler extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 8;
+    private static final int DATABASE_VERSION = 9;
     private static final String DATABASE_NAME = "fydip.db";
 
     public static final String TABLE_USER = "users";
@@ -108,8 +108,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public Cursor getMatchesList(String username) {
         String data = "";
         SQLiteDatabase db = getWritableDatabase();
-        String[] queryCols=new String[]{"matchID", "player1", "player2"};
-        Cursor cursor = db.query(TABLE_MATCH, queryCols, COLUMN_USER + " = " + username, null, null, null, null);
+        //String[] queryCols=new String[]{"matchID", "player1", "player2"};
+        Cursor cursor = db.query(TABLE_MATCH, null, COLUMN_USER + " = " + username, null, null, null, null);
         return cursor;
     }
 
